@@ -28,20 +28,8 @@ class User extends Authenticatable
         'password', 'remember_token',
     ];
 
-    /**
-     * The attributes that should be cast to native types.
-     *
-     * @var array
-     */
-    protected $casts = [
-        'email_verified_at' => 'datetime',
-    ];
-
-    protected $fillable = [
-        'name', 'slug', 'body'
-    ];
-
-    public function posts() {
+    public function posts()
+    {
         return $this->hasMany(Post::class);
     }
 }
