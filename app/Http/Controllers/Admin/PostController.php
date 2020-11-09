@@ -55,10 +55,11 @@ class PostController extends Controller
      */
     public function store(PostStoreRequest $request)
     {
+
         $posts = Post::create($request->all());
 
         //IMAGE
-        if($request->file('image')){
+        if($request->file('file')){
             $path = Storage::disk('public')->put('image',  $request->file('image'));
             $posts->fill(['file' => asset($path)])->save();
         }
@@ -80,6 +81,7 @@ class PostController extends Controller
     public function show($id)
     {
         $posts = Post::find($id);
+        $this->authorize('pass', $posts);
 
         return view('admin.posts.show', compact('posts'));
     }
@@ -92,9 +94,11 @@ class PostController extends Controller
      */
     public function edit($id)
     {
+        $posts      = Post::find($id);
+        $this->authorize('pass', $posts);
+
         $categories = Category::orderBy('name', 'ASC')->pluck('name', 'id');
         $tags       = Tag::orderBy('name', 'ASC')->get();
-        $posts      = Post::find($id);
 
         return view('admin.posts.edit', compact('posts', 'categories', 'tags'));
     }
@@ -109,11 +113,12 @@ class PostController extends Controller
     public function update(PostUpdateeRequest $request, $id)
     {
         $posts = Post::find($id);
+        $this->authorize('pass', $posts);
 
         $posts->fill($request->all())->save();
 
          //IMAGE
-        if($request->file('image')){
+        if($request->file('file')){
             $path = Storage::disk('public')->put('image',  $request->file('image'));
             $posts->fill(['file' => asset($path)])->save();
         }
@@ -134,7 +139,10 @@ class PostController extends Controller
      */
     public function destroy($id)
     {
-        Post::find($id)->delete();
+        $post = Post::find($id);
+        $this->authorize('pass', $post);
+        $post->delete();
+
         return back()->with('info', 'Eliminado correctamente');
     }
 }

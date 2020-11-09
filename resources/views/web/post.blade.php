@@ -12,8 +12,9 @@
 
                 </div>
                 <div class="panel-body">
+
                     @if($post->file)
-                      <img src="{{asset('/'.$post->file)}}" class="img-responsive">
+                      <img src="{{($post->file)}}" class="img-responsive">
                     @endif
                     {{$post->excerpt}}
                    <hr>
