@@ -32,7 +32,7 @@ class RegisterController extends Controller
     /**
      * Modificado, RouteServiceProvider::HOME
      */
-     protected $redirectTo = RouteServiceProvider::HOME;
+     protected $redirectTo = '/';
 
     /**
      * Create a new controller instance.

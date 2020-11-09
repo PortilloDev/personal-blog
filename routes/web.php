@@ -14,8 +14,12 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::redirect('/', ' blog');
+Route::redirect('/', 'blog');
 
+//grupo de rutas para el control de autenticación
+/*Route::get('/', 'Auth\LoginController@showLoginForm');
+Route::post('login', 'Auth\LoginController@Login')->name('login');
+Route::get('logout', 'Auth\LoginController@Logout')->name('logout');*/
 Auth::routes();
 
 //web

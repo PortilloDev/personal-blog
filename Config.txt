@@ -1,1 +1,3 @@
-install - composer require laravel/ui
+install - Proceso de autentificación y login ->  composer require laravel/ui
+install - LaravelCollective -> composer require laravelcollective/html
+include - jquery.stringToSlug.js 1.3
