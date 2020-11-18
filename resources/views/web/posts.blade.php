@@ -13,7 +13,7 @@
                 <div class="panel-body">
 
                     @if($post->file)
-                      <img src="{{asset($post->file)}}" class="img-responsive">
+                      <img src="{{asset("image/".$post->file)}}" class="img-responsive">
                     @endif
                     {{$post->excerpt}}
                     <a href="{{route('post', $post->slug)}}" class="pull-right">Leer más</a>

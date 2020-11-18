@@ -7,8 +7,6 @@ use App\Http\Controllers\Controller;
 Use App\Http\Requests\PostStoreRequest;
 Use App\Http\Requests\PostUpdateeRequest;
 
-use Illuminate\Support\Facades\Storage;
-
 use App\Post;
 use App\Tag;
 use App\Category;
@@ -55,14 +53,16 @@ class PostController extends Controller
      */
     public function store(PostStoreRequest $request)
     {
-
-        $posts = Post::create($request->all());
-
+        $entrada = $request->all();
         //IMAGE
-        if($request->file('file')){
-            $path = Storage::disk('public')->put('image',  $request->file('image'));
-            $posts->fill(['file' => asset($path)])->save();
+        $archivo = $request->file('file');
+        if($archivo){
+            $nombre_imagen = $archivo->getClientOriginalName();
+            $archivo->move('image', $nombre_imagen);
+            $entrada['file'] = $nombre_imagen;
         }
+
+        $posts = Post::create($entrada);
 
         //TAGS
         $posts->tags()->attach($request->get('tags'));
@@ -115,13 +115,17 @@ class PostController extends Controller
         $posts = Post::find($id);
         $this->authorize('pass', $posts);
 
-        $posts->fill($request->all())->save();
-
+         $entrada = $request->all();
          //IMAGE
-        if($request->file('file')){
-            $path = Storage::disk('public')->put('image',  $request->file('image'));
-            $posts->fill(['file' => asset($path)])->save();
-        }
+         $archivo = $request->file('file');
+
+         if($archivo){
+             $nombre_imagen = $archivo->getClientOriginalName();
+             $archivo->move('image', $nombre_imagen);
+             $entrada['file'] = $nombre_imagen;
+         }
+
+         $posts->fill($entrada)->save();
 
         //TAGS
         $posts->tags()->sync($request->get('tags'));
